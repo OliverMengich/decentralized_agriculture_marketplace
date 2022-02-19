@@ -6,7 +6,10 @@ import './ERC721.sol';
 contract AgriBlock is ERC721{
     
     address private contract_owner;
+    address private buyer;
     constructor(){
         contract_owner = msg.sender;
     }
+    
+    
 }

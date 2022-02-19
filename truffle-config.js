@@ -19,9 +19,9 @@
  */
 
 // const HDWalletProvider = require('@truffle/hdwallet-provider');
-//
+
 // const fs = require('fs');
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
+//const mnemonic = fs.readFileSync(".secret").toString().trim();
 
 module.exports = {
   /**
@@ -46,7 +46,6 @@ module.exports = {
      port: 8545,            // Standard Ethereum port (default: none)
      network_id: "*",       // Any network (default: none)
     },
-    
   },
   contracts_build_directory: './src/abis',
   contracts_directory: './src/contracts',
