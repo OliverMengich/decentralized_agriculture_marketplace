@@ -42,13 +42,24 @@ contract ERC721{
         string memory issuccessfull = _transferFrom(_from, _to, _index);
         return issuccessfull;
     }
+    function getElement(uint256 _index,address _owner) private view returns(uint256){
+         Products[] memory alluserproducts = ownerProducts[_owner];
+        for(uint i=0; i < alluserproducts.length; i++){
+            bytes32 hash1 = keccak256(abi.encodePacked(alluserproducts[i].product_name,address(alluserproducts[i]._owner)));
+            bytes32 hash2 = keccak256(abi.encodePacked(product[_index].product_name,address(product[_index]._owner)));
+            if(hash1 == hash2) return i;
+        }
+        return 455353535635635635;
+    }
     function _transferFrom(address _from, address payable _to, uint256 _index) private returns(string memory){
         Products memory specificProduct = ownerProducts[_from][_index];
         //require if the _from has the product if not revert
         require(specificProduct.price != 0,'no product found');
         require(specificProduct.product_quantity != 0,'product quantity not specified');
         // delete that product from the person who owns it
-        deleteFromUser(_from, _index);
+        uint indexInArray = getElement(_index, _from);
+        require(indexInArray != 455353535635635635,'element not found');
+        deleteFromUser(_from, indexInArray);
         // change ownership from current owner to latest owner
         specificProduct._owner = _to;
         //change from records 
@@ -77,6 +88,7 @@ contract ERC721{
     
     function deleteFromUser(address _from, uint256 _index) private {
         Products[] storage owninguser = ownerProducts[_from];
+        require(_index < owninguser.length, 'index out of bounds');
         for(uint i = _index; i< owninguser.length-1; i++){
             owninguser[i] = owninguser[i+1]; 
         }
