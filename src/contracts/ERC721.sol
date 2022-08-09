@@ -74,7 +74,6 @@ contract ERC721{
         return ownerProducts[_owner][_index];
     }
     function tokenByIndex(uint256 _index) public virtual view returns(Products memory){
-        
         return product[_index];
     } 
     //returns balance of an owner
@@ -98,9 +97,8 @@ contract ERC721{
         addProduct(_owner, prod);   
     }
     function addProduct(address _owner, Products memory prod) private{
-        ownerProducts[_owner].pushprod);
+        ownerProducts[_owner].push(prod);
         isMember[_owner] = true;
     }
-    
     
 }
