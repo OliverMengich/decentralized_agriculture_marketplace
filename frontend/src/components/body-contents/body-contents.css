@@ -17,13 +17,14 @@ section .body-contents img{
     width: 100%;
     border-radius: 10px;
 }
-section .body-contents > *{
+/* section .body-contents > *{
     padding: 3px;
-}
+} */
 .body-contents .price__contents{
     display: flex;
     align-items: center;
     width: 100%;
+    text-align: center;
     align-items: center;
 }
 .body-contents .price__contents img{

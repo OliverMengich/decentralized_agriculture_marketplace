@@ -21,7 +21,7 @@ function MainNav(){
                 </ul>
             </nav>
             <div className="addressAccount">
-                <button>&#128100;</button>
+                <button><span role='img' aria-label="donut" >&#128100;</span> </button>
             </div>
         </header>
     )

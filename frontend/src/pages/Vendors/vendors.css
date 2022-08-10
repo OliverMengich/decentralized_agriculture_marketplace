@@ -2,3 +2,34 @@
     text-align: center;
     color: #fff;
 }
+section{
+    display: flex;
+    margin: 20px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    text-align: center;
+}
+section .body-contents{
+    width: 20%;
+    border: 2px solid white;
+    margin: 10px;
+    text-align: center;
+    color: white;
+    margin: 0 auto;
+}
+section .body-contents img{
+    height: 150px;
+    width: 100%;
+    border-radius: 10px;
+}
+.body-contents .user__name{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto;
+}
+section .body-contents .user__name img{
+    height: 30px;
+    width: 30px;
+    color: white;
+}
