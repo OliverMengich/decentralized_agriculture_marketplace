@@ -16,6 +16,7 @@
 .btn{
     padding: 10px;
     border-radius: 20px;
+    border: none;
     color: white;
     width: 200px;
     font-size: 1rem;
@@ -31,6 +32,19 @@
     text-align: center;
     color: black;
     display:block;
+}
+.modal__label{
+    text-align: center;
+    width: 100%;
+}
+.modal__label input{
+    outline: none;
+    border: 1px solid green;
+    width: 100%;
+    border-radius: 10px;
+    height: 2rem;
+    margin: 0 auto;
+
 }
 .modal__content img{
     height: 250px;
