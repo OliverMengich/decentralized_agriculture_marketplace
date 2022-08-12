@@ -51,11 +51,15 @@ class Home extends React.Component {
             const contract = new web3.eth.Contract(abi,address);
             await this.setState({contract});
             // console.log(this.state);
-            const agriProducts = await contract.methods.totalCommodity().call();
-            this.setState({
-                agriProducts
+            const Products = await contract.methods.totalCommodity().call();
+            console.log(Products);
+            await this.setState({
+                agriProducts: Products
+            },
+            ()=>{
+                console.log(this.state);
             });
-            console.log(this.state);
+            
         }
         else {
             window.alert('Smart contract not deployed')
@@ -69,6 +73,7 @@ class Home extends React.Component {
                 creating: !this.state.creating
             })
         })
+        console.log(this.state)
     }
     addProductHandler=()=>{
         this.setState({
@@ -92,8 +97,9 @@ class Home extends React.Component {
             <React.Fragment>
                 <div className='home-container'>
                     <MainNav />
-                    <AddProduct addProductHandler={this.addProductHandler} />
-                    <BodyContents/>
+                    <AddProduct/>
+                    <BodyContents products={this.state.agriProducts} />
+                    
                 </div>
                 {
                     this.state.creating &&(

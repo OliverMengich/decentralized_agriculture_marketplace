@@ -8,7 +8,7 @@ section .body-contents{
     width: 20%;
     border: 2px solid white;
     padding: 10px;
-    margin: 10px;
+    /* margin: 10px; */
     text-align: center;
     color: white;
 }
@@ -18,7 +18,7 @@ section .body-contents img{
     border-radius: 10px;
 }
 /* section .body-contents > *{
-    padding: 3px;
+    padding: 0px;
 } */
 .body-contents .price__contents{
     display: flex;
