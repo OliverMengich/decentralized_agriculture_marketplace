@@ -27,7 +27,6 @@ contract ERC721{
         bool result = _transferFrom(_from, _to, _index);
         return result;
     }
-    
     function _transferFrom(address _from, address payable _to, uint256 _index) private returns(bool){
         
         // 1. find product from products array
