@@ -10,7 +10,7 @@ function BodyContents({products, userInfo}){
             {
                 products.map(product=>{
                     return(
-                        <div key={product.owner} className="body-contents">
+                        <div key={product.count} className="body-contents">
                             <img src={require('./lourdes.jpg')} alt="product"/>
                             <h4>{product.product_name}</h4>
                             <div className='user__name'>

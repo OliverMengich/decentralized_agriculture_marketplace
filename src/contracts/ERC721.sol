@@ -11,12 +11,13 @@ contract ERC721{
         string _harvestDate;
         address _owner;
         uint count;
+        string imageUrl;
     }
 
     Products[] public product;
     mapping (address=>Products[]) internal ownerProducts;
     mapping(address => bool) public isMember;
-
+    mapping(address => uint) public userSuccessFullTrades;
     function transferFrom(address _from, address payable _to, uint256 _index) public payable returns(bool) {
         //require(_from.balance > price,'You have insufficient balance to transact');
         require(_from != address(0),'Invalid address');
@@ -45,6 +46,7 @@ contract ERC721{
         product.push(specificProduct);
         //5. put _to as member
         isMember[_to] = true;
+        userSuccessFullTrades[_from] +=1;
         //6. update the buyers struct
         ownerProducts[_to].push(specificProduct);
         return true;
@@ -81,7 +83,7 @@ contract ERC721{
         Products[] storage products = ownerProducts[_owner];
         return products;
     }
-    function mint(address _owner, string memory product_name,uint256 product_quantity, uint price, string calldata _dateOfPlant, string calldata _harvestDate) public {
+    function mint(address _owner, string memory product_name,uint256 product_quantity, uint price, string calldata _dateOfPlant, string calldata _harvestDate,string calldata imageUrl) public {
         Products memory prod = Products({
             product_name: product_name,
             product_quantity: product_quantity,
@@ -89,7 +91,8 @@ contract ERC721{
             _dateOfPlant: _dateOfPlant,
             _harvestDate: _harvestDate,
             _owner: _owner,
-            count: product.length + 1
+            count: product.length + 1,
+            imageUrl: imageUrl
         });
         product.push(prod);
         //call the mint function  
