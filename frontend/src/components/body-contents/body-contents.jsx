@@ -4,7 +4,7 @@ function NameOwner(userInfo,address){
     const user = userInfo.filter(e=>e.address===address)
     return user[0]
 }
-function BodyContents({products, userInfo}){
+function BodyContents({products, userInfo,userLoggedIn}){
     return(
         <section>
             {
@@ -34,8 +34,12 @@ function BodyContents({products, userInfo}){
                                 <h5>Price:    {product.price}</h5>
                                 <img src={require("./ethereum.png")} alt="eth"/>
                             </div>
-                
-                            <button className="btn">View</button>
+                            {
+                                (product._owner !== userLoggedIn) &&(
+                                    <button className="btn">View</button>
+                                )
+                            }
+                            
                         </div>
                     )
                 })

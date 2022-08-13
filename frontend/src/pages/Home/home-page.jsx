@@ -51,7 +51,6 @@ class Home extends React.Component {
             const contract = new web3.eth.Contract(abi,address);
             await this.setState({contract});
             const Products = await contract.methods.totalCommodity().call();
-            console.log(Products)
             await this.setState({
                 agriProducts: Products
             });
@@ -64,10 +63,11 @@ class Home extends React.Component {
     async mint(owner,productName,productQuantity,price,dateOfPlant,_harvestDate){
         await this.state.contract.methods.mint(owner,productName,productQuantity,price,dateOfPlant,_harvestDate).send({from: this.state.account})
         .once('receipt',()=>{
+            const Products = this.state.contract.methods.totalCommodity().call();
             this.setState({
-                agriProducts:[...this.state.agriProducts, AgriBlock],
+                agriProducts: Products,
                 creating: !this.state.creating
-            })
+            });
         })
     }
     addProductHandler=()=>{
@@ -77,13 +77,13 @@ class Home extends React.Component {
     }
     mintFormHandler=async (event)=>{
         event.preventDefault();
-        const owner = this.state.account;
+        const owner = this.owner.current.value;
         const productName = this.productName.current.value;
         const productQuantity = this.productQuantity.current.value;
         const price = this.price.current.value;
         const dateOfPlant = this.dateOfPlant.current.value;
         const _harvestDate = this._harvestDate.current.value;
-
+        console.log(owner,productName,productQuantity,_harvestDate);
         await this.mint(owner,productName,productQuantity,price,dateOfPlant,_harvestDate);
     }
     render() {
@@ -91,8 +91,12 @@ class Home extends React.Component {
             <React.Fragment>
                 <div className='home-container'>
                     <MainNav />
-                    <AddProduct addProductHandler={this.addProductHandler}/>
-                    <BodyContents userInfo={this.state.userInfo} products={this.state.agriProducts} />
+                    {
+                        this.state.userInfo.filter(e=>e.address===this.state.account) &&(
+                            <AddProduct addProductHandler={this.addProductHandler}/>
+                        )
+                    }
+                    <BodyContents userLoggedIn={this.state.account} userInfo={this.state.userInfo} products={this.state.agriProducts} />
                     
                 </div>
                 {

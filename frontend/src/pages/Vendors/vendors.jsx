@@ -8,8 +8,7 @@ import UserProfile from '../../components/UserProfile/users.components';
 class Vendors extends React.Component{
     state={
         viewInfo: false,
-        userInfo: USER_INFO,
-        selectedUser: null
+        userInfo: USER_INFO
     }
     viewButtonClickedHandler=()=>{
         this.setState({
