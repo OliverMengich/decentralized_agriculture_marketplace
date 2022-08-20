@@ -27,7 +27,7 @@ function UserProfile(props){
                             </div>
                             <p>{user.trades} Successfull Trades</p>
                             <p>Contact: {user.contact}</p>
-                            {/* <button onClick={props.viewButtonClickedHandler} className="btn">View</button> */}
+                            <button onClick={props.viewButtonClickedHandler} className="btn">View</button>
                         </div>
                     )
                 })

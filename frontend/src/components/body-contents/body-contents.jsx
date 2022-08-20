@@ -4,7 +4,7 @@ function NameOwner(userInfo,address){
     const user = userInfo.filter(e=>e.address===address)
     return user[0]
 }
-function BodyContents({products, userInfo,userLoggedIn}){
+function BodyContents({products, userInfo,userLoggedIn,viewProductHandler}){
     return(
         <section>
             {
@@ -36,7 +36,7 @@ function BodyContents({products, userInfo,userLoggedIn}){
                             </div>
                             {
                                 (product._owner !== userLoggedIn) &&(
-                                    <button className="btn">View</button>
+                                    <button onClick={viewProductHandler} className="btn">View</button>
                                 )
                             }
                             

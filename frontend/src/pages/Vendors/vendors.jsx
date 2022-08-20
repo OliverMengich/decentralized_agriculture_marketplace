@@ -20,7 +20,7 @@ class Vendors extends React.Component{
             <div className='vendors__container'>
                 <MainNav/>
                 <h1>This is the vendors page</h1>
-                <UserProfile userInfo = {this.state.userInfo} viewButtonClickedHandler = {this.viewButtonClickedHandler}/>
+                <UserProfile userInfo = {this.state.userInfo}  viewButtonClickedHandler = {this.viewButtonClickedHandler}/>
                 {
                     this.state.viewInfo &&(
                         <Backdrop/>

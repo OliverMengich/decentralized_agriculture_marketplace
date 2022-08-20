@@ -1,28 +1,20 @@
 import React from 'react';
 import './home-page.css';
-import detectEthereumProvider from '@metamask/detect-provider';
-import Web3 from 'web3'
 import MainNav from '../../components/Navigation/navigation';
 import BodyContents from '../../components/body-contents/body-contents';
-import AgriBlock from '../../abis/AgriBlock.json';
 import Modal from '../../components/modal/Modal';
 import Backdrop from '../../components/Backdrop/Backdrop';
 import AddProduct from '../../components/AddProduct/add-product';
 import USER_INFO from './users.data';
+import BlockchainContext from '../../context/blockchain.context';
 class Home extends React.Component {
-    async componentDidMount(){
-        await this.loadWeb3();
-        await this.loadBlockchainData();
-    }
+    static contextType = BlockchainContext;
     constructor(props) {
         super(props);
         this.state = {
-            account: '',
-            contract:null,
-            totalSupply:0,
-            agriProducts:[],
             creating: false,
-            userInfo: USER_INFO
+            userInfo: USER_INFO,
+            viewProduct: false
         }
         this.productName = React.createRef();
         this.productQuantity = React.createRef();
@@ -30,40 +22,11 @@ class Home extends React.Component {
         this.price = React.createRef();
         this.dateOfPlant = React.createRef();
         this._harvestDate = React.createRef();
-   }
-    async loadWeb3(){
-        const provider = await detectEthereumProvider();
-        if(provider){
-            window.web3 = new Web3(provider);
-        }else{
-           alert('PLEASE INSTALL METAMASK!!')
-        }
-    }
-    async loadBlockchainData(){
-        const web3 = window.web3
-        const accounts = await web3.eth.requestAccounts()
-        this.setState({account:accounts[0]})
-        const networkId = await web3.eth.net.getId();
-        const networkData = AgriBlock.networks[networkId];
-        if(networkData){
-            const abi = AgriBlock.abi;
-            const address = networkData.address;
-            const contract = new web3.eth.Contract(abi,address);
-            await this.setState({contract});
-            const Products = await contract.methods.totalCommodity().call();
-            await this.setState({
-                agriProducts: Products
-            });
-            
-        }
-        else {
-            window.alert('Smart contract not deployed')
-        }
     }
     async mint(owner,productName,productQuantity,price,dateOfPlant,_harvestDate){
-        await this.state.contract.methods.mint(owner,productName,productQuantity,price,dateOfPlant,_harvestDate).send({from: this.state.account})
+        await this.context.contract.methods.mint(owner,productName,productQuantity,price,dateOfPlant,_harvestDate).send({from: this.state.account})
         .once('receipt',()=>{
-            const Products = this.state.contract.methods.totalCommodity().call();
+            const Products = this.context.contract.methods.totalCommodity().call();
             this.setState({
                 agriProducts: Products,
                 creating: !this.state.creating
@@ -86,6 +49,11 @@ class Home extends React.Component {
         console.log(owner,productName,productQuantity,_harvestDate);
         await this.mint(owner,productName,productQuantity,price,dateOfPlant,_harvestDate);
     }
+    viewProductHandler=()=>{
+        this.setState({
+            viewProduct: !this.state.viewProduct
+        })
+    }
     render() {
         return(
             <React.Fragment>
@@ -96,11 +64,11 @@ class Home extends React.Component {
                             <AddProduct addProductHandler={this.addProductHandler}/>
                         )
                     }
-                    <BodyContents userLoggedIn={this.state.account} userInfo={this.state.userInfo} products={this.state.agriProducts} />
+                    <BodyContents viewProductHandler={this.viewProductHandler} userLoggedIn={this.context.account} userInfo={this.state.userInfo} products={this.context.agriProducts} />
                     
                 </div>
                 {
-                    this.state.creating &&(
+                    (this.state.creating || this.state.viewProduct) &&(
                         <Backdrop/>
                     )
                 }
@@ -129,6 +97,10 @@ class Home extends React.Component {
                                         <input required type='number' ref={this.price} />
                                     </div>
                                     <div className='modal__label'>
+                                        <label>Image URL</label>
+                                        <input required type='file' ref={this.imageURL} />
+                                    </div>
+                                    <div className='modal__label'>
                                         <label>Date Planted</label>
                                         <input required type='date' ref={this.dateOfPlant} />
                                     </div>
@@ -142,6 +114,43 @@ class Home extends React.Component {
                                     <button type='submit' className='btn'>MINT</button>
                                 </section>
                             </form>
+                        </Modal>
+                    )
+                }
+                {
+                    this.state.viewProduct &&(
+                        <Modal>
+                            <header className='modal__header'>
+                                <h1>View Product</h1>
+                            </header>
+                            <section className='modal__content'>
+                                <h2>Product description</h2>
+                                <div className='user__name'>
+                                    <h4>Mangoes</h4>
+                                    {/* <img src={require('./verified.png')} alt='verified'/> */}
+                                </div>
+                                <div className='user__name'>
+                                    <label>Owner:  </label>
+                                    <p>Oliver Kipkemei</p>
+                                </div>
+                                <div className='user__name'>
+                                    <label>Location:  </label>
+                                    <p>Nyeri</p>
+                                </div>
+                                <div className='user__name'>
+                                    <label>Date Planted:  </label>
+                                    <p>Nyeri</p>
+                                </div>
+                                <div className='user__name'>
+                                    <label>Date Harvested:  </label>
+                                    <p>Nyeri</p>
+                                </div>
+                            </section>
+                            <section  className='modal__actions'>
+                                <button onClick={this.viewProductHandler} className='btn'>Cancel</button>
+                                <button type='submit' className='btn'>BUY</button>
+                            </section>
+                            
                         </Modal>
                     )
                 }
