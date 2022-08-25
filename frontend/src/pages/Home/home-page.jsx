@@ -14,17 +14,18 @@ class Home extends React.Component {
         this.state = {
             creating: false,
             userInfo: USER_INFO,
-            viewProduct: false
+            viewProduct: false,
+            selectedProduct: null,
         }
         this.productName = React.createRef();
         this.productQuantity = React.createRef();
-        this.owner = React.createRef();
         this.price = React.createRef();
         this.dateOfPlant = React.createRef();
         this._harvestDate = React.createRef();
+        this.imageURL = React.createRef();
     }
-    async mint(owner,productName,productQuantity,price,dateOfPlant,_harvestDate){
-        await this.context.contract.methods.mint(owner,productName,productQuantity,price,dateOfPlant,_harvestDate).send({from: this.state.account})
+    async mint(owner,productName,productQuantity,price,dateOfPlant,_harvestDate,imageURL){
+        await this.context.contract.methods.mint(owner,productName,productQuantity,price,dateOfPlant,_harvestDate,imageURL).send({from: this.context.account})
         .once('receipt',()=>{
             const Products = this.context.contract.methods.totalCommodity().call();
             this.setState({
@@ -40,21 +41,42 @@ class Home extends React.Component {
     }
     mintFormHandler=async (event)=>{
         event.preventDefault();
-        const owner = this.owner.current.value;
+        const owner = this.context.account;
         const productName = this.productName.current.value;
         const productQuantity = this.productQuantity.current.value;
         const price = this.price.current.value;
         const dateOfPlant = this.dateOfPlant.current.value;
         const _harvestDate = this._harvestDate.current.value;
-        console.log(owner,productName,productQuantity,_harvestDate);
-        await this.mint(owner,productName,productQuantity,price,dateOfPlant,_harvestDate);
+        const imageURL = this.imageURL.current.value
+        console.log(owner,productName,productQuantity,_harvestDate,imageURL);
+        await this.mint(owner,productName,productQuantity,price,dateOfPlant,_harvestDate,imageURL);
     }
-    viewProductHandler=()=>{
+    viewProductHandler=(count)=>{
+        if(count !== null){
+            console.log(count);
+            const product = this.context.agriProducts.filter(e=>e.count.toString()===count.toString());
+            // console.log(product);
+            if(product !==null){
+                this.setState({
+                    selectedProduct: product
+                },()=>{
+                    console.log(this.state)
+                })
+            }
+        }
         this.setState({
             viewProduct: !this.state.viewProduct
         })
     }
+    NameOwner = (address) =>{
+        const user = this.state.userInfo.filter(e=>e.address===address)
+        return user[0]
+    }
+    buyProduct = () =>{
+        console.log('you want to buy');
+    }
     render() {
+        console.log(this.context)
         return(
             <React.Fragment>
                 <div className='home-container'>
@@ -81,10 +103,6 @@ class Home extends React.Component {
                             <form onSubmit={this.mintFormHandler}>
                                 <section className='modal__content'>
                                     <div className='modal__label'>
-                                        <label>Owner</label>
-                                        <input required ref={this.owner} type='text' />
-                                    </div>
-                                    <div className='modal__label'>
                                         <label>Product Name</label>
                                         <input placeholder='enter product Name' ref={this.productName} required type='text'/>
                                     </div>
@@ -98,7 +116,7 @@ class Home extends React.Component {
                                     </div>
                                     <div className='modal__label'>
                                         <label>Image URL</label>
-                                        <input required type='file' ref={this.imageURL} />
+                                        <input required type='text' ref={this.imageURL} />
                                     </div>
                                     <div className='modal__label'>
                                         <label>Date Planted</label>
@@ -118,37 +136,33 @@ class Home extends React.Component {
                     )
                 }
                 {
-                    this.state.viewProduct &&(
+                    (this.state.viewProduct && this.state.selectedProduct) &&(
                         <Modal>
                             <header className='modal__header'>
                                 <h1>View Product</h1>
                             </header>
                             <section className='modal__content'>
-                                <h2>Product description</h2>
+                                <h2>{this.state.selectedProduct[0].product_name}</h2>
                                 <div className='user__name'>
-                                    <h4>Mangoes</h4>
-                                    {/* <img src={require('./verified.png')} alt='verified'/> */}
+                                    <label>Price:  </label>
+                                    <h4>{this.state.selectedProduct[0].price}</h4>
                                 </div>
                                 <div className='user__name'>
                                     <label>Owner:  </label>
-                                    <p>Oliver Kipkemei</p>
+                                    <h4>{this.NameOwner(this.state.selectedProduct[0]._owner).name}</h4>
                                 </div>
                                 <div className='user__name'>
                                     <label>Location:  </label>
-                                    <p>Nyeri</p>
+                                    <h4>{this.NameOwner(this.state.selectedProduct[0]._owner).location}</h4>
                                 </div>
                                 <div className='user__name'>
-                                    <label>Date Planted:  </label>
-                                    <p>Nyeri</p>
-                                </div>
-                                <div className='user__name'>
-                                    <label>Date Harvested:  </label>
-                                    <p>Nyeri</p>
+                                    <label>Date Harvested  </label>
+                                    <p>{this.state.selectedProduct[0]._harvestDate}</p>
                                 </div>
                             </section>
                             <section  className='modal__actions'>
                                 <button onClick={this.viewProductHandler} className='btn'>Cancel</button>
-                                <button type='submit' className='btn'>BUY</button>
+                                <button type='submit' onClick={this.buyProduct} className='btn'>BUY</button>
                             </section>
                             
                         </Modal>

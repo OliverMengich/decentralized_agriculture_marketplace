@@ -8,13 +8,19 @@ function BodyContents({products, userInfo,userLoggedIn,viewProductHandler}){
     return(
         <section>
             {
+                products.length !==0?(
                 products.map(product=>{
                     return(
                         <div key={product.count} className="body-contents">
                             <img src={require('./lourdes.jpg')} alt="product"/>
                             <h4>{product.product_name}</h4>
+                            <h4>{product.product_quantity} Kilograms</h4>
+                            <div className="price__contents">
+                                <h5>Price:    {product.price}</h5>
+                                <img src={require("./ethereum.png")} alt="eth"/>
+                            </div>
                             <div className='user__name'>
-                                <img src={require('./placeholder.png')} alt='verified'/>
+                               <img src={require('./placeholder.png')} alt='verified'/>
                                 <p>{NameOwner(userInfo,product._owner).location}</p>
                             </div>
                             <div className='user__name'>
@@ -30,20 +36,15 @@ function BodyContents({products, userInfo,userLoggedIn,viewProductHandler}){
                             </div>
                             <p>Date Planted: {product._dateOfPlant}</p>
                             <p>Date Harvested: {product._harvestDate} </p>
-                            <div className="price__contents">
-                                <h5>Price:    {product.price}</h5>
-                                <img src={require("./ethereum.png")} alt="eth"/>
-                            </div>
                             {
                                 (product._owner !== userLoggedIn) &&(
-                                    <button onClick={viewProductHandler} className="btn">View</button>
+                                    <button onClick={viewProductHandler.bind(this,product.count)} className="btn">View</button>
                                 )
                             }
-                            
                         </div>
                     )
                 })
-                
+                ) : (<h1>No products found</h1>)
             }
             
         </section>

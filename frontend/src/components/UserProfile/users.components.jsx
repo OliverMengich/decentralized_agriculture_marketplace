@@ -1,13 +1,12 @@
 import React from "react";
 import './user.component.css';
-function UserProfile(props){
-    console.log(props.userInfo)
+function UserProfile({context,userInfo,viewButtonClickedHandler}){
     return (
         <section>
             {
-                props.userInfo.map(user=>{
+                userInfo.map(user=>{
                     return(
-                        <div className="body-contents">
+                        <div key={user.address} className="body-contents">
                             <img src={require('./lourdes.jpg')} alt="product"/>
                             <div className='user__name'>
                                 <h4>{user.name}</h4>
@@ -25,14 +24,13 @@ function UserProfile(props){
                                 <img src={require('./farmer.png')} alt='verified'/>
                                 <p> {user.farmer} Farmer</p>
                             </div>
-                            <p>{user.trades} Successfull Trades</p>
+                            <p>{user.userTrades} Successfull Trade{user.userTrades>1?'s':''}</p>
                             <p>Contact: {user.contact}</p>
-                            <button onClick={props.viewButtonClickedHandler} className="btn">View</button>
+                            <button onClick={viewButtonClickedHandler} className="btn">View</button>
                         </div>
                     )
                 })
             }
-            
         </section>
     )
 }

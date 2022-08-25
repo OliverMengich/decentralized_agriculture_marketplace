@@ -3,11 +3,12 @@ const USER_INFO=[
         id:1,
         name: 'Oliver Kipkemei',
         address: '0xbc0A3696C7f70eb146bA217081730C972fF305Bb',
-        verified: true,
+        verified: false,
         location: 'Nyeri',
         imageUrl: 'https://',
         farmer: 'Beans, Maize, Potatoes',
-        contact: '0741954425'
+        contact: '0741954425',
+        userTrades: 2
     },
     {
         id:2,
@@ -17,14 +18,16 @@ const USER_INFO=[
         location: 'Kirinyaga',
         imageUrl: 'https://',
         farmer: 'Maize',
-        contact: '0707834445'
+        contact: '0707834445',
+        userTrades: 5
     },
     {
         id:3,
         name: 'Fausting Chiry',
         address: '0xAAc81A2556B00c6Ed97B4F497fA6B8bd89511F32',
-        verified: true,
+        verified: false,
         location: 'Meru',
+        userTrades: 1,
         imageUrl: 'https://',
         farmer: 'Khat(Miraa)',
         contact: '0714534581'
@@ -37,17 +40,19 @@ const USER_INFO=[
         location: 'Kisumu',
         imageUrl: 'https://',
         farmer: 'Fish',
-        contact: '0741954425'
+        contact: '0741954425',
+        userTrades: 0
     },
     {
         id:5,
         name: 'Susan Kapkoyo',
         address: '0xB08f0f1803f89c8AC0e239b350a6C266C7C95648',
-        verified: true,
+        verified: false,
         location: 'Nakuru',
         imageUrl: 'https://',
         farmer: 'Wheat, Sorghum',
-        contact: '0725034666'
+        contact: '0725034666',
+        userTrades: 1
     }
 ];
 export default USER_INFO;

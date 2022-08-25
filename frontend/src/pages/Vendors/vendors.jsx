@@ -5,14 +5,19 @@ import Modal from '../../components/modal/Modal';
 import Backdrop from '../../components/Backdrop/Backdrop';
 import USER_INFO from '../Home/users.data';
 import UserProfile from '../../components/UserProfile/users.components';
+import BlockchainContext from '../../context/blockchain.context';
 class Vendors extends React.Component{
     state={
         viewInfo: false,
         userInfo: USER_INFO
     }
-    viewButtonClickedHandler=()=>{
+    static contextType = BlockchainContext;
+    viewButtonClickedHandler=(count)=>{
+        if(count){
+            console.log(count)
+        }
         this.setState({
-            viewInfo: !this.state.viewInfo
+            viewInfo: !this.state.viewInfo,
         })
     }
     render() {
@@ -20,7 +25,7 @@ class Vendors extends React.Component{
             <div className='vendors__container'>
                 <MainNav/>
                 <h1>This is the vendors page</h1>
-                <UserProfile userInfo = {this.state.userInfo}  viewButtonClickedHandler = {this.viewButtonClickedHandler}/>
+                <UserProfile context = {this.context} userInfo = {this.state.userInfo}  viewButtonClickedHandler = {this.viewButtonClickedHandler}/>
                 {
                     this.state.viewInfo &&(
                         <Backdrop/>

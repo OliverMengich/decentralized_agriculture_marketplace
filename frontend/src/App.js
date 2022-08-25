@@ -42,7 +42,7 @@ class App extends React.Component {
       // await this.setState({contract});
       const Products = await contract.methods.totalCommodity().call();
       await this.setState({
-        contract: contract,
+        contract,
         agriProducts: Products
       });
     }
@@ -66,7 +66,6 @@ class App extends React.Component {
             <Route path='/vendors' element={<Vendors/>} />
           </Routes>
         </BlockchainContext.Provider>
-        
       </BrowserRouter>
 
     );
