@@ -8,6 +8,7 @@ import UserAccount from './pages/User_Account/user-account';
 import Vendors from './pages/Vendors/vendors';
 import BlockchainContext from './context/blockchain.context';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import BuyPage from './pages/buy/buy-item';
 class App extends React.Component {
   async componentDidMount(){
     await this.loadWeb3();
@@ -64,6 +65,7 @@ class App extends React.Component {
             <Route path='/' element={<Home/>}/>
             <Route path='/user' element={<UserAccount/>} />
             <Route path='/vendors' element={<Vendors/>} />
+            <Route path='/buy' element={<BuyPage/>} />
           </Routes>
         </BlockchainContext.Provider>
       </BrowserRouter>
