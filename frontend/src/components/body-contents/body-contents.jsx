@@ -1,10 +1,11 @@
 import React from "react";
 import './body-contents.css';
+import userInfo from "../../pages/Home/users.data";
 function NameOwner(userInfo,address){
     const user = userInfo.filter(e=>e.address===address)
     return user[0]
 }
-function BodyContents({products, userInfo,userLoggedIn,viewProductHandler}){
+function BodyContents({products,userLoggedIn,viewProductHandler}){
     return(
         <section>
             {

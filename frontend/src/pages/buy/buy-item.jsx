@@ -2,7 +2,9 @@ import React from 'react';
 import MainNav from '../../components/Navigation/navigation';
 import './buy-item.css';
 import Chatter from '../../components/chat/chatter';
+// import BlockchainContext from '../../context/blockchain.context';
 function buyPage(){
+    // const context = React.useContext(BlockchainContext);
     return(
         <div className="user__container">
             <MainNav/>

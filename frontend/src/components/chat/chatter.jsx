@@ -35,7 +35,7 @@ function Chatter({name}){
         let date = new Date();
         let txt = {
             count: Math.floor(Math.random() * 10000+1),
-            isLeft: msgs.length===0? true: toggleLeftOrRight(),
+            isLeft: msgs.length===0? false: toggleLeftOrRight(),
             text:inputEl.current.value,
             time: date.toLocaleTimeString(),
             sender: context.account
@@ -63,7 +63,7 @@ function Chatter({name}){
             <div className='message-input'>
                 <form onSubmit={submitTxt}>
                     <input required ref={inputEl} placeholder='Type message here' type='text'/>
-                    <button type='submit' className='btn'>
+                    <button type='submit' className='button'>
                         <img alt='send' src={require('./send.png')}/>
                     </button>
                 </form>

@@ -16,6 +16,7 @@ class Home extends React.Component {
             userInfo: USER_INFO,
             viewProduct: false,
             selectedProduct: null,
+            navigateToBuyPage: false
         }
         this.productName = React.createRef();
         this.productQuantity = React.createRef();
@@ -72,9 +73,6 @@ class Home extends React.Component {
         const user = this.state.userInfo.filter(e=>e.address===address)
         return user[0]
     }
-    buyProduct = () =>{
-        console.log('you want to buy');
-    }
     render() {
         console.log(this.context)
         return(
@@ -86,7 +84,7 @@ class Home extends React.Component {
                             <AddProduct addProductHandler={this.addProductHandler}/>
                         )
                     }
-                    <BodyContents viewProductHandler={this.viewProductHandler} userLoggedIn={this.context.account} userInfo={this.state.userInfo} products={this.context.agriProducts} />
+                    <BodyContents viewProductHandler={this.viewProductHandler} userLoggedIn={this.context.account} products={this.context.agriProducts} />
                     
                 </div>
                 {
@@ -156,18 +154,22 @@ class Home extends React.Component {
                                     <h4>{this.NameOwner(this.state.selectedProduct[0]._owner).location}</h4>
                                 </div>
                                 <div className='user__name'>
-                                    <label>Date Harvested  </label>
-                                    <p>{this.state.selectedProduct[0]._harvestDate}</p>
+                                    <label>Contact:  </label>
+                                    <h4>{this.NameOwner(this.state.selectedProduct[0]._owner).contact}</h4>
+                                </div>
+                                <div className='user__name'>
+                                    <label>Date Harvested: </label>
+                                    <h4>{this.state.selectedProduct[0]._harvestDate}</h4>
                                 </div>
                             </section>
                             <section  className='modal__actions'>
                                 <button onClick={this.viewProductHandler} className='btn'>Cancel</button>
-                                <button type='submit' onClick={this.buyProduct} className='btn'>BUY</button>
+                                <button type='submit' className='btn'>BUY</button>
                             </section>
-                            
                         </Modal>
                     )
                 }
+                
             </React.Fragment>
         )
     }
