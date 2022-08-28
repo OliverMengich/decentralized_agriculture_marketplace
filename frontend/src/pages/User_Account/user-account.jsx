@@ -20,7 +20,7 @@ function UserAccount (){
         loadUserBalance();
     },[context.contract]);
     const viewProductHandler = ()=>{
-        console.log('you clicked me!!')
+        console.log('you clicked me!!');
     }
     return(
         <div className="user__container">
@@ -31,7 +31,7 @@ function UserAccount (){
                     <h1>Loading......</h1>
                 ):(
                     <BodyContents products={userProducts} viewProductHandler={viewProductHandler}>
-                        
+
                     </BodyContents>
                 )
             }
