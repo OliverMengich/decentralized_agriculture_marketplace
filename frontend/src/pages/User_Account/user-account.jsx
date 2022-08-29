@@ -11,10 +11,9 @@ function UserAccount (){
         const loadUserBalance = async()=>{
             if(context.contract !==null){
                 setLoading(true);
-                const  userBalance = await context.contract.methods.balanceOf(context.account).call();
+                const userBalance = await context.contract.methods.balanceOf(context.account).call();
                 setUserProducts(userBalance);
                 setLoading(false);
-                console.log(userBalance);
             }
         }
         loadUserBalance();
@@ -30,8 +29,8 @@ function UserAccount (){
                 loading? (
                     <h1>Loading......</h1>
                 ):(
-                    <BodyContents products={userProducts} viewProductHandler={viewProductHandler}>
 
+                    <BodyContents products={userProducts} viewProductHandler={viewProductHandler}>
                     </BodyContents>
                 )
             }

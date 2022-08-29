@@ -3,10 +3,11 @@ import './body-contents.css';
 import userInfo from "../../pages/Home/users.data";
 
 function BodyContents({products,userLoggedIn,viewProductHandler}){
-    const NameOwner =(userInfo,address)=>{
+    const NameOwner =(address)=>{
         const user = userInfo.filter(e=>e.address===address)
         return user[0]
     }
+    
     return(
         <section>
             {
@@ -23,14 +24,14 @@ function BodyContents({products,userLoggedIn,viewProductHandler}){
                                 </div>
                                 <div className='user__name'>
                                 <img src={require('./placeholder.png')} alt='verified'/>
-                                    <p>{NameOwner(userInfo,product._owner).location}</p>
+                                    <p>{NameOwner(product._owner).location}</p>
                                 </div>
                                 <div className='user__name'>
                                     <h4>Owner: </h4>
                                     <div className='user__name'>
-                                        <h4>{NameOwner(userInfo,product._owner).name}</h4>
+                                        <h4>{NameOwner(product._owner).name}</h4>
                                         {
-                                            NameOwner(userInfo,product._owner).verified &&(
+                                            NameOwner(product._owner).verified &&(
                                                 <img src={require('./verified.png')} alt='verified'/>
                                             )
                                         }
@@ -46,7 +47,7 @@ function BodyContents({products,userLoggedIn,viewProductHandler}){
                             </div>
                         )
                     })
-                ) : (<h1>Loading....</h1>)
+                ) : (<h1>You dont have any Product. Purchase or register as a Farmer</h1>)
             }
             
         </section>
