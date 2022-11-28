@@ -1,0 +1,29 @@
+/* image at background of home-body div */
+.home-body {
+    position: absolute;
+    top: 90px;
+    
+}
+.backgroundImage{
+    width: 100%;
+    opacity: .5;
+}
+.home-body-content{
+    text-align: center;
+}
+.home-body h1{
+    color: red;
+    font-family: 'Fruktur', cursive;
+    font-size: 3rem;
+    font-weight: 700;
+    /* margin-top: 20%; */
+}
+.home-body p{
+    text-align: center;
+    font-family: 'Zen Kurenaido', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: white;
+    opacity: 1;
+    /* max-width: 50vw; */
+}
