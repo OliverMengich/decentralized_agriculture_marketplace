@@ -36,7 +36,7 @@ const ViewProductModal = (props) =>{
             </section>
             <section  className='modal__actions'>
                 <button onClick={props.viewProductHandler} className='btn'>Cancel</button>
-                <button type='submit' className='btn'>BUY</button>
+                <button onClick={props.buyProductHandler.bind(this,props.selectedProduct[0].count)} type='submit' className='btn'>BUY</button>
             </section>
         </Modal>
     )

@@ -23,7 +23,11 @@ function UserAccount (){
     }
     return(
         <div className="user__container">
-            <MainNav/>
+            <MainNav didPaid={{
+                address: '',
+                product_name: '',
+                isPaid: false
+            }}/>
             <h1>This is user Account</h1>
             {
                 loading? (

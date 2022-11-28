@@ -7,7 +7,7 @@ function UserProfile({context,userInfo,viewButtonClickedHandler}){
                 userInfo.map(user=>{
                     return(
                         <div key={user.address} className="body-contents">
-                            <img src={require('./lourdes.jpg')} alt="product"/>
+                            <img src={user.imageUrl} alt="product"/>
                             <div className='user__name'>
                                 <h4>{user.name}</h4>
                                 {
@@ -22,11 +22,11 @@ function UserProfile({context,userInfo,viewButtonClickedHandler}){
                             </div>
                             <div className='user__name'>
                                 <img src={require('./farmer.png')} alt='verified'/>
-                                <p> {user.farmer} Farmer</p>
+                                <p> {user.farmer} Vendor</p>
                             </div>
                             <p>{user.userTrades} Successfull Trade{user.userTrades>1?'s':''}</p>
                             <p>Contact: {user.contact}</p>
-                            <button onClick={viewButtonClickedHandler} className="btn">View</button>
+                            <button onClick={viewButtonClickedHandler.bind(this,user.id)} className="btn">View</button>
                         </div>
                     )
                 })

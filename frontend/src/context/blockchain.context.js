@@ -2,5 +2,6 @@ import React from "react";
 export default React.createContext({
     account: null,
     contract: null,
-    agriProducts: []
+    agriProducts: [],
+    web3: null,
 });

@@ -1,13 +1,13 @@
-import React,{useState,useRef} from 'react';
+import React,{useState,useRef,useEffect} from 'react';
 import './chatter.css';
-import { io} from'socket.io-client';
+import {io } from 'socket.io-client';
 import BlockchainContext from '../../context/blockchain.context';
-const socket = io('http://localhost:4000');
+const socket = io('http://localhost:4000/admin');
 function Chatter({name}){
     const context = React.useContext(BlockchainContext);
     const inputEl = useRef();
     const [msgs,setMessage] = useState([]);
-    React.useEffect(()=>{
+    useEffect(()=>{
         console.log(msgs)
     },[msgs])
     socket.on('connect',(args)=>{

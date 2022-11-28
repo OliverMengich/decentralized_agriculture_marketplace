@@ -1,21 +1,56 @@
-import React from "react";
+import React,{useState,useRef} from "react";
 import './body-contents.css';
 import userInfo from "../../pages/Home/users.data";
-
-function BodyContents({products,userLoggedIn,viewProductHandler}){
+import Backdrop from "../Backdrop/Backdrop";
+import Modal from "../modal/Modal";
+function BodyContents({products,userLoggedIn,viewProductHandler,sellProductHandler}){
     const NameOwner =(address)=>{
         const user = userInfo.filter(e=>e.address===address)
         return user[0]
     }
-    
-    return(
+    const address = useRef('');
+    const [toggler, setToggler] = useState(false);
+    const [count1, setCount1] = useState(0);
+    function sell(count) {
+        setCount1(count)
+        setToggler(!toggler)
+    }
+    return (
         <section>
             {
+                toggler && (
+                    <Backdrop/>
+                )
+            },
+            {
+                toggler && (
+                    <Modal>
+                        <div className="modal__header">
+                            <h1>Enter Address you want to sell to</h1>
+                        </div>
+                        <form onSubmit={e => { console.log(address.current.value, count1); e.preventDefault(); setToggler(!toggler); sellProductHandler(address.current.value,count1)}} action="">
+                            <div className="modal__content">
+                                <div className="modal__label">
+                                <label>Address</label>
+                                <input width='200px' placeholder='enter product Name' ref={address} required type='text'/>
+                            </div>
+                            </div>
+                            <section  className='modal__actions'>
+                                <button onClick={e=>setToggler(!toggler)} className='btn'>Cancel</button>
+                                <button type='submit' className='btn'>BUY</button>
+                            </section>
+                        </form>
+                   </Modal>
+                )
+            },
+            {
+                
                 products.length !==0?(
-                    products.map(product=>{
+                    products.map(product => {
+                        console.log(product);
                         return(
                             <div key={product.count} className="body-contents">
-                                <img src={require('./lourdes.jpg')} alt="product"/>
+                                <img src={product.imageUrl} alt="product"/>
                                 <h4>{product.product_name}</h4>
                                 <h4>{product.product_quantity} Kilograms</h4>
                                 <div className="price__contents">
@@ -42,6 +77,12 @@ function BodyContents({products,userLoggedIn,viewProductHandler}){
                                 {
                                     (product._owner !== userLoggedIn) &&(
                                         <button onClick={viewProductHandler.bind(this,product.count)} className="btn">View</button>
+                                    )
+                                }
+                                {
+                                    (product._owner === userLoggedIn) && (
+                                        // onClick={sellProductHandler.bind(this,product.count)}
+                                        <button onClick={sell.bind(this,product.count)}  className="btn">SELL</button>
                                     )
                                 }
                             </div>

@@ -43,7 +43,7 @@ contract ERC721{
         specificProduct._owner = address(_to);
         //5. delete from overall array and update the overall array
         deleteFromOverallArray(_index);
-        product.push(specificProduct);
+        // product.push(specificProduct);
         //5. put _to as member
         isMember[_to] = true;
         userSuccessFullTrades[_from] +=1;

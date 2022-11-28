@@ -9,7 +9,8 @@ import BlockchainContext from '../../context/blockchain.context';
 class Vendors extends React.Component{
     state={
         viewInfo: false,
-        userInfo: USER_INFO
+        userInfo: USER_INFO,
+        selectedUser: null
     }
     static contextType = BlockchainContext;
     viewButtonClickedHandler=(count)=>{
@@ -18,12 +19,13 @@ class Vendors extends React.Component{
         }
         this.setState({
             viewInfo: !this.state.viewInfo,
-        })
+            selectedUser: this.state.userInfo.filter(e=>e.id.toString()===count.toString())
+        },()=>{console.log(this.state.selectedUser[0])})
     }
     render() {
         return(
             <div className='vendors__container'>
-                <MainNav/>
+                <MainNav didPaid={{address: '', product_name: '',isPaid: false}}/>
                 <h1>This is the vendors page</h1>
                 <UserProfile context = {this.context} userInfo = {this.state.userInfo}  viewButtonClickedHandler = {this.viewButtonClickedHandler}/>
                 {
@@ -32,19 +34,20 @@ class Vendors extends React.Component{
                     )
                 }
                 {
-                    this.state.viewInfo &&(
+                    this.state.viewInfo && this.state.selectedUser && (
+            
                         <Modal>
                             <header className='modal__header'>
-                                <h1>Oliver Kipkemei</h1>
+                                <h1>{ this.state.selectedUser[0].name }</h1>
                             </header>
                             <section className='modal__content'>
-                                <img src={require('./lourdes.jpg')} alt="user"/>
+                                <img src={this.state.selectedUser[0].imageUrl} alt="user"/>
                                 <div className='user__name'>
-                                    <h4>Oliver Kipkemei</h4>
-                                    <img src={require('./verified.png')} alt='verified'/>
+                                    <h4>{ this.state.selectedUser[0].name }</h4>
+                                    { this.state.selectedUser[0].verified? <img src={require('./verified.png')} alt='verified'/> : ''}
                                 </div>
-                                <p>Address: 0x3cA53BA2F7C5df7A46389691c4e1B60Ce0BF4487</p>
-                                <p>Sell Onions, Mangoes, Beans, potatoes</p>
+                                <p>Address: { this.state.selectedUser[0].address }</p>
+                                <p>Sells: { this.state.selectedUser[0].farmer }</p>
                             </section>
                             <section  className='modal__actions'>
                                 <button onClick={this.viewButtonClickedHandler} className='btn'>Cancel</button>

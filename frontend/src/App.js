@@ -10,6 +10,7 @@ import BlockchainContext from './context/blockchain.context';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import BuyPage from './pages/buy/buy-item';
 import HomePage from './pages/Home/HomePage';
+import Defaultpage from './pages/default/defaultpage.component';
 class App extends React.Component {
   async componentDidMount(){
     await this.loadWeb3();
@@ -34,7 +35,10 @@ class App extends React.Component {
     const web3 = window.web3
     const accounts = await web3.eth.requestAccounts();
     console.log(accounts);
-    this.setState({account:accounts[0]})
+    this.setState({
+      account: accounts[0],
+      web3Window: web3
+    })
     const networkId = await web3.eth.net.getId();
     const networkData = AgriBlock.networks[networkId];
     if(networkData){
@@ -59,11 +63,13 @@ class App extends React.Component {
           value={{
             account: this.state.account,
             contract: this.state.contract,
-            agriProducts: this.state.agriProducts
+            agriProducts: this.state.agriProducts,
+            web3: this.state.web3Window
           }}
           >
           <Routes>
-            <Route path='/' element={<HomePage/>}/>
+            <Route path='/' element={<Defaultpage/>}/>
+            <Route path='/products' element={<HomePage/>}/>
             <Route path='/user' element={<UserAccount/>} />
             <Route path='/vendors' element={<Vendors/>} />
             <Route path='/buy' element={<BuyPage/>} />

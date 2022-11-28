@@ -1,6 +1,9 @@
-import React,{useRef} from "react";
+import React,{useRef,useContext} from "react";
 import Modal from "../modal/Modal";
-const AddProductModal = (props)=>{
+import BlockchainContext from '../../context/blockchain.context';
+const AddProductModal = (props) => {
+    const context = useContext(BlockchainContext);
+    console.log(context);
     const productName = useRef();
     const productQuantity = useRef();
     const price = useRef();
@@ -8,26 +11,25 @@ const AddProductModal = (props)=>{
     const _harvestDate = useRef();
     const imageURL = useRef();
     const mint = async(owner,productName,productQuantity,price,dateOfPlant,_harvestDate,imageURL)=>{
-        await props.contract.methods.mint(owner,productName,productQuantity,price,dateOfPlant,_harvestDate,imageURL).send({from: this.context.account})
+        await props.contract.methods.mint(owner,productName,productQuantity,price,dateOfPlant,_harvestDate,imageURL).send({from: context.account})
         .once('receipt',()=>{
-            const Products = this.context.contract.methods.totalCommodity().call();
+            const Products = context.contract.methods.totalCommodity().call();
             this.setState({
                 agriProducts: Products,
                 creating: !this.state.creating
             });
         })
     }
-    const mintFormHandler=async (event)=>{
+    const mintFormHandler = async (event) => {
         event.preventDefault();
-        const owner = this.context.account;
-        const productName = this.productName.current.value;
-        const productQuantity = this.productQuantity.current.value;
-        const price = this.price.current.value;
-        const dateOfPlant = this.dateOfPlant.current.value;
-        const _harvestDate = this._harvestDate.current.value;
-        const imageURL = this.imageURL.current.value
-        console.log(owner,productName,productQuantity,_harvestDate,imageURL);
-        await mint(owner,productName,productQuantity,price,dateOfPlant,_harvestDate,imageURL);
+        const owner = context.account;
+        await mint(owner,
+            productName.current.value,
+            productQuantity.current.value,
+            price.current.value, dateOfPlant.current.value,
+            _harvestDate.current.value,
+            imageURL.current.value
+        );
     }
     return(
         <Modal>
