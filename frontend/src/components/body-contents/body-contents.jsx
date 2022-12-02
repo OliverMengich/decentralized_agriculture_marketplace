@@ -1,12 +1,27 @@
-import React,{useState,useRef} from "react";
+import React,{useState,useRef,useContext,useEffect} from "react";
 import './body-contents.css';
 import userInfo from "../../pages/Home/users.data";
 import Backdrop from "../Backdrop/Backdrop";
 import Modal from "../modal/Modal";
-function BodyContents({products,userLoggedIn,viewProductHandler,sellProductHandler}){
+import BlockchainContext from "../../context/blockchain.context";
+function BodyContents({ products, userLoggedIn, viewProductHandler, sellProductHandler, conversionVals }) {
+    //converts from ETH to KES
+    const [conversionVals, setConversionVals] = useState({
+        from: 0.000,
+        to: 0.000
+    })
+    const context = useContext(BlockchainContext);
     const NameOwner =(address)=>{
         const user = userInfo.filter(e=>e.address===address)
         return user[0]
+    }
+    const priceInKES = async (price) => {
+        const result = ((conversionVals.to / conversionVals.from) * price)
+        let KES = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'KES'
+        })
+        return KES.format(result);
     }
     const address = useRef('');
     const [toggler, setToggler] = useState(false);
@@ -54,8 +69,8 @@ function BodyContents({products,userLoggedIn,viewProductHandler,sellProductHandl
                                 <h4>{product.product_name}</h4>
                                 <h4>{product.product_quantity} Kilograms</h4>
                                 <div className="price__contents">
-                                    <h5>Price:    {product.price}</h5>
-                                    <img src={require("./ethereum.png")} alt="eth"/>
+                                    <h5>Price: {priceInKES(product.price)}</h5>
+                                    {/* <img src={require("./ethereum.png")} alt="eth"/> */}
                                 </div>
                                 <div className='user__name'>
                                 <img src={require('./placeholder.png')} alt='verified'/>

@@ -15,12 +15,27 @@ function HomePage(){
     const [userInfo,setuserInfo] = useState([]);
     const [viewProduct,setViewProduct] = useState(false);
     const [selectedProduct, setSelected] = useState(null);
-    const [didPaid, setDidPaid] = useState({address: '', product_name: '',isPaid: ''});
-    // const [didPaid, setDidPaid] = useState({isPaid: false, address: ''});
+    const [didPaid, setDidPaid] = useState({ address: '', product_name: '', isPaid: '' });
+    const [conversionVals, setConversionVals] = useState({
+        from: 0.000,
+        to: 0.000
+    })
     const context = useContext(BlockchainContext);
     useEffect(()=>{
         console.log('I rendered');
-        setuserInfo(USER_INFO)
+        setuserInfo(USER_INFO);
+        fetch(`https://api.coinbase.com/v2/exchange-rates?currency=ETH`)
+            .then(curr=>{
+                return curr.json()
+            }).then(res=>{
+                // resolve(res.data.rates)
+                setConversionVals({
+                    from: res.data.rates['ETH'],
+                    to: res.data.rates['KES']
+                });
+            }).catch(err=>{
+                console.log(err);
+            })
     },[]);
     function addProductHandler(){
         setCreating(!creating);
@@ -91,7 +106,7 @@ function HomePage(){
                         <AddProduct addProductHandler={addProductHandler} />
                     )
                 }
-                <BodyContents sellProductHandler={sellProductHandler} viewProductHandler={viewProductHandler} userLoggedIn={context.account} products={context.agriProducts} />
+                <BodyContents sellProductHandler={sellProductHandler} viewProductHandler={viewProductHandler} userLoggedIn={context.account} conversionVals={conversionVals} products={context.agriProducts} />
             </div>
             {
                 (creating || viewProduct) &&(
@@ -100,7 +115,7 @@ function HomePage(){
             }
             {
                 (creating || viewProduct) &&(
-                    <AddProductModal addProductHandler={addProductHandler} contract={context.contract} />
+                    <AddProductModal addProductHandler={addProductHandler} conversionVals={conversionVals} contract={context.contract} />
                 )
             }
             {

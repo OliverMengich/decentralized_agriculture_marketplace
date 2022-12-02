@@ -20,13 +20,20 @@ const AddProductModal = (props) => {
             });
         })
     }
+    const priceInKES = async (price) => {
+        // convert KES to ETH. from KES to ETH
+        const result = ((props.conversionVals.from / props.conversionVals.to) * price)
+        return result;
+    }
     const mintFormHandler = async (event) => {
         event.preventDefault();
         const owner = context.account;
-        await mint(owner,
+        await mint(
+            owner,
             productName.current.value,
             productQuantity.current.value,
-            price.current.value, dateOfPlant.current.value,
+            context.web3.utils.toWei(priceInKES(price.current.value).toString(),'ether').parseInt(),
+            dateOfPlant.current.value,
             _harvestDate.current.value,
             imageURL.current.value
         );
